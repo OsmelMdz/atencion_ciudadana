@@ -3,6 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json; charset=UTF-8");
 
 $servername = "localhost";
 $database = "atencion_ciudadana";
@@ -19,26 +20,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"));
 
     if (!empty($data->nombre_completo) && !empty($data->email)) {
-        $nombre_completo = $conn->real_escape_string($data->nombre_completo);
-        $email = $conn->real_escape_string($data->email);
+        $nombre_completo = $data->nombre_completo;
+        $email = $data->email;
 
         // Verificar si el usuario existe en la base de datos
         $sql = "SELECT * FROM registro WHERE nombre_completo = '$nombre_completo' AND email = '$email'";
 
         $result = $conn->query($sql);
 
-        if ($result) {
-            if ($result->num_rows > 0) {
-                // El usuario existe en la base de datos
-                echo json_encode(["success" => true, "message" => "Inicio de sesión exitoso"]);
-            } else {
-                echo json_encode(["success" => false, "error" => "Nombre completo y correo electrónico no encontrados en la base de datos"]);
-            }
+        if ($result->num_rows > 0) {
+            // El usuario existe en la base de datos
+            echo json_encode(["message" => "Inicio de sesión exitoso"]);
         } else {
-            echo json_encode(["success" => false, "error" => "Error en la consulta: " . $conn->error]);
+            echo json_encode(["error" => "Nombre completo y correo electrónico no encontrados en la base de datos"]);
         }
     } else {
-        echo json_encode(["success" => false, "error" => "Nombre completo y correo electrónico son obligatorios"]);
+        echo json_encode(["error" => "Nombre completo y correo electrónico son obligatorios"]);
     }
 }
 
@@ -49,4 +46,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 mysqli_close($conn);
 ?>
-

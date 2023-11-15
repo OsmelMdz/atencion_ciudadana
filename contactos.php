@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *"); // Cambia * por la URL de tu frontend en producción
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Origin: http://localhost:8100"); // Cambia esta URL según tu frontend
+//header("Access-Control-Allow-Origin: http://localhost:8100"); // Cambia esta URL según tu frontend
 header("Access-Control-Allow-Methods: POST, OPTIONS"); // Permitir métodos POST y OPTIONS
 header("Access-Control-Allow-Headers: Content-Type"); // Permitir el encabezado Content-Type
 header("Content-Type: application/json; charset=UTF-8");
